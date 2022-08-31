@@ -1,6 +1,11 @@
 var express = require("express");
 var router = express.Router();
-const { register, login } = require("../../controllers/authController");
+const {
+  register,
+  login,
+  deleteUserByEmail,
+  findAllUser,
+} = require("../../controllers/authController");
 
 /**
  * @swagger
@@ -25,5 +30,9 @@ router.post("/register", register);
 
  */
 router.post("/login", login);
+
+router.delete("/deleteUser", deleteUserByEmail);
+
+router.get("/", findAllUser);
 
 module.exports = router;

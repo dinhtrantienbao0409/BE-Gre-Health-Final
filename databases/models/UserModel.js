@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+
+const mongoosePaginate = require("mongoose-paginate-v2");
+
 const {
   ADMIN_ROLE,
   PATIENT_ROLE,
@@ -29,6 +32,8 @@ const UserSchema = new Schema(
     timeStamp: true,
   }
 );
+
+UserSchema.plugin(mongoosePaginate);
 
 const User = mongoose.model("User", UserSchema);
 
