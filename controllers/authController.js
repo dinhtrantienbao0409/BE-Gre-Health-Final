@@ -1,13 +1,13 @@
 const User = require("../databases/models/UserModel");
+const { USER_ROLE } = require("../constants/role");
 const { hash, comparePassword } = require("../helpers/bcrypt");
 const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password, role = USER_ROLE } = req.body;
 
-    if (!email || !password || !role)
-      return res.status(400).send("MISSING_FIELD");
+    if (!email || !password) return res.status(400).send("MISSING_FIELD");
 
     const user = await User.findOne({ email: req.body.email });
 
@@ -32,7 +32,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) return res.status(400).send("MISSING_FIELD");
+  if (!email || !password) return res.status(400).send("MISSING_PARAMS");
 
   try {
     const user = await User.findOne({ email });
@@ -60,4 +60,31 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const deleteUserByEmail = async (req, res) => {
+  const { email, password, role } = req.body;
+
+  if (!email) return res.status(400).send("NOTFOUND");
+
+  const deletedUser = await User.deleteOne({ email: req.body.email });
+  return res.status(200).send(deletedUser);
+};
+
+const findAllUser = async (req, res) => {
+  try {
+    const { page = 1, limit = 5 } = req.query;
+    const options = {
+      page,
+      limit,
+    };
+    const users = await User.paginate({}, options);
+
+    return res.status(200).send(users);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: doctorController.js ~ line 32 ~ getAllDoctors ~ error",
+      error
+    );
+  }
+};
+
+module.exports = { register, login, deleteUserByEmail, findAllUser };
