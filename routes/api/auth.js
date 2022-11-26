@@ -5,6 +5,10 @@ const {
   login,
   deleteUserByEmail,
   findAllUser,
+  findUserById,
+  deleteUserById,
+  updateUserById,
+  findUserByDoctorRole,
 } = require("../../controllers/authController");
 
 /**
@@ -32,7 +36,11 @@ router.post("/register", register);
 router.post("/login", login);
 
 router.delete("/deleteUser", deleteUserByEmail);
+router.delete("/:userId", deleteUserById);
 
 router.get("/", findAllUser);
+router.get("/findOne/:userId", findUserById);
+router.put("/:userId", updateUserById);
+router.get("/doctor", findUserByDoctorRole);
 
 module.exports = router;
