@@ -24,9 +24,16 @@ const UserSchema = new Schema(
         DOCTOR_ROLE,
         USER_ROLE,
       ],
+
       require: true,
       default: "user",
     },
+    name: String,
+    address: String,
+    contact: String,
+    dateOfBirth: String,
+    gender: String,
+    jobTitle: String,
   },
   {
     timeStamp: true,

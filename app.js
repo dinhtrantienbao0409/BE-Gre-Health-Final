@@ -1,10 +1,13 @@
 var express = require("express");
+var cors = require("cors");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const database = require("./databases/connect");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+
+const { isLoggedIn } = require("./middlewares/auth");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -13,6 +16,7 @@ const recordRouter = require("./routes/api/record");
 const doctorRouter = require("./routes/api/doctor");
 const patientRouter = require("./routes/api/patient");
 const receptionistRouter = require("./routes/api/receptionist");
+const formRouter = require("./routes/api/form");
 
 var app = express();
 
@@ -33,6 +37,7 @@ const options = {
 
 const swaggerSpec = swaggerJSDoc(options);
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -42,10 +47,12 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/record", recordRouter);
-app.use("/api/doctor", doctorRouter);
-app.use("/api/patient", patientRouter);
-app.use("/api/receptionist", receptionistRouter);
+app.use("/api/record", isLoggedIn, recordRouter);
+app.use("/api/doctor", isLoggedIn, doctorRouter);
+app.use("/api/patient", isLoggedIn, patientRouter);
+app.use("/api/receptionist", isLoggedIn, receptionistRouter);
+// app.use("/api/form", isLoggedIn, formRouter);
+app.use("/api/form", formRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //connect MongoDB IIFE

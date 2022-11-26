@@ -5,9 +5,33 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    const { email, password, role = USER_ROLE } = req.body;
+    const {
+      email,
+      password,
+      role = USER_ROLE,
+      name,
+      address,
+      contact,
+      dateOfBirth,
+      gender,
+      jobTitle,
+    } = req.body;
+    console.log(
+      "🚀 ~ file: authController.js ~ line 16 ~ register ~ req",
+      req.body
+    );
 
-    if (!email || !password) return res.status(400).send("MISSING_FIELD");
+    if (
+      !email ||
+      !password ||
+      !name ||
+      !address ||
+      !contact ||
+      !dateOfBirth ||
+      !gender ||
+      !jobTitle
+    )
+      return res.status(400).send("MISSING_FIELD");
 
     const user = await User.findOne({ email: req.body.email });
 
@@ -19,7 +43,17 @@ const register = async (req, res) => {
       email,
       password: hashedPassword,
       role,
+      name,
+      address,
+      contact,
+      dateOfBirth,
+      gender,
+      jobTitle,
     });
+    console.log(
+      "🚀 ~ file: authController.js ~ line 40 ~ register ~ createdUser",
+      createdUser
+    );
 
     if (!createdUser) return res.status(500);
 
@@ -51,7 +85,9 @@ const login = async (req, res) => {
 
     const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
 
-    return res.status(200).json(token).send("LOGIN_SUCCESSFULLY");
+    return res
+      .status(200)
+      .send({ token, payload, message: "loggin successfully", status: 200 });
   } catch (error) {
     console.log(
       "🚀 ~ file: authController.js ~ line 56 ~ login ~ error",
@@ -69,14 +105,23 @@ const deleteUserByEmail = async (req, res) => {
   return res.status(200).send(deletedUser);
 };
 
+const deleteUserById = async (req, res) => {
+  const { userId } = req.params;
+  if (!userId) return res.status(400).send("NOTFOUND");
+
+  const deletedUser = await User.findByIdAndDelete({ _id: userId });
+  return res.status(200).send(deletedUser);
+};
+
 const findAllUser = async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
-    const options = {
-      page,
-      limit,
-    };
-    const users = await User.paginate({}, options);
+    // const { page = 1, limit = 5 } = req.query;
+    // const options = {
+    //   page,
+    //   limit,
+    // };
+    // const users = await User.paginate({}, options);
+    const users = await User.find({});
 
     return res.status(200).send(users);
   } catch (error) {
@@ -87,4 +132,88 @@ const findAllUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login, deleteUserByEmail, findAllUser };
+const findUserById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log(
+      "🚀 ~ file: authController.js ~ line 129 ~ findUserById ~ userId",
+      userId
+    );
+
+    if (!userId) return res.status(400).send("NOTFOUND");
+
+    const user = await User.findOne({ _id: userId });
+
+    if (!user) return res.status(400).send("NOTFOUND");
+
+    return res.status(200).send(user);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: authController.js ~ line 143 ~ findUserById ~ error",
+      error
+    );
+    return res.status(500).json(error);
+  }
+};
+
+const updateUserById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const {
+      email,
+      password,
+      role,
+      name,
+      address,
+      contact,
+      dateOfBirth,
+      gender,
+      jobTitle,
+    } = req.body;
+
+    if (!userId) return res.status(400).send("NOTFOUND");
+
+    const hashedPassword = await hash(password);
+
+    const updatedUser = await User.findByIdAndUpdate(userId, {
+      email,
+      password: hashedPassword,
+      role,
+      name,
+      address,
+      contact,
+      dateOfBirth,
+      gender,
+      jobTitle,
+    });
+    return res.status(200).send(updatedUser);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: authController.js ~ line 167 ~ updateUserById ~ error",
+      error
+    );
+  }
+};
+
+const findUserByDoctorRole = async (req, res) => {
+  try {
+    const doctors = await User.find({ role: "doctor" });
+    return res.status(200).send(doctors);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: authController.js ~ line 204 ~ findUserByDoctorRole ~ error",
+      error
+    );
+  }
+};
+
+module.exports = {
+  register,
+  login,
+  deleteUserByEmail,
+  findAllUser,
+  findUserById,
+  deleteUserById,
+  updateUserById,
+  findUserByDoctorRole,
+};
