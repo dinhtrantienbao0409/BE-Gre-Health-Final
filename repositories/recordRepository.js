@@ -1,25 +1,37 @@
 const Record = require("../databases/models/RecordModel");
 
 const CreateRecord = async ({
-  name,
-  gender,
-  dateOfBirth,
-  address,
-  age,
-  contact,
-  healthCondition,
-  doctorSuggestion,
+  doctorName,
+  doctorEmail,
+  doctorAddress,
+  doctorContact,
+  username,
+  userGender,
+  userDateOfBirth,
+  userAddress,
+  userContact,
+  dentalSymtoms,
+  diagnosis,
+  treatmentPlan,
+  doctorId,
+  userId,
 }) => {
   try {
     const createdRecord = await Record.create({
-      name,
-      gender,
-      dateOfBirth,
-      address,
-      age,
-      contact,
-      healthCondition,
-      doctorSuggestion,
+      doctorName,
+      doctorEmail,
+      doctorAddress,
+      doctorContact,
+      username,
+      userGender,
+      userDateOfBirth,
+      userAddress,
+      userContact,
+      dentalSymtoms,
+      diagnosis,
+      treatmentPlan,
+      doctorId,
+      userId,
     });
     return createdRecord;
   } catch (error) {
@@ -27,9 +39,9 @@ const CreateRecord = async ({
   }
 };
 
-const FindAllRecords = async () => {
+const FindAllRecords = async (conditions, options) => {
   try {
-    const records = await Record.find({});
+    const records = await Record.paginate(conditions, options);
     return records;
   } catch (error) {
     console.log(
@@ -51,4 +63,34 @@ const FindRecordByOption = async (option) => {
   }
 };
 
-module.exports = { CreateRecord, FindAllRecords, FindRecordByOption };
+const FindRecordsByCondition = async (conditions, options) => {
+  try {
+    const records = await Record.paginate(conditions, options);
+    return records;
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: recordRepository.js ~ line 47 ~ FindRecordByOption ~ error",
+      error
+    );
+  }
+};
+
+const DeleteRecord = async (test) => {
+  try {
+    const deletedRecord = await Record.deleteOne(test);
+    return deletedRecord;
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: recordRepository.js ~ line 83 ~ DeleteRecord ~ error",
+      error
+    );
+  }
+};
+
+module.exports = {
+  CreateRecord,
+  FindAllRecords,
+  FindRecordByOption,
+  FindRecordsByCondition,
+  DeleteRecord,
+};

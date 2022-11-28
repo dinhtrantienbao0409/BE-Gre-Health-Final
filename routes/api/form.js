@@ -8,6 +8,7 @@ const {
   getFormsWithoutDoctorId,
   updateFormById,
   getFormsByDoctorId,
+  deletedFormForTesting,
 } = require("../../controllers/FormController");
 
 router.get("/", getAllForms);
@@ -16,5 +17,6 @@ router.get("/withoutDoctorId", getFormsWithoutDoctorId);
 router.get("/byDoctorId/:doctorId", getFormsByDoctorId);
 router.post("/create", createForm);
 router.put("/:formId", updateFormById);
+router.delete("/deleteForm", deletedFormForTesting);
 
 module.exports = router;

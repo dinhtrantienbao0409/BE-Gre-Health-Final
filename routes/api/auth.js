@@ -34,13 +34,11 @@ router.post("/register", register);
 
  */
 router.post("/login", login);
-
-router.delete("/deleteUser", deleteUserByEmail);
-router.delete("/:userId", deleteUserById);
-
+router.delete("/deleteOne/:userId", deleteUserById);
 router.get("/", findAllUser);
 router.get("/findOne/:userId", findUserById);
 router.put("/:userId", updateUserById);
 router.get("/doctor", findUserByDoctorRole);
+router.delete("/deleteUser", deleteUserByEmail);
 
 module.exports = router;

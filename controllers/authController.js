@@ -115,13 +115,13 @@ const deleteUserById = async (req, res) => {
 
 const findAllUser = async (req, res) => {
   try {
-    // const { page = 1, limit = 5 } = req.query;
-    // const options = {
-    //   page,
-    //   limit,
-    // };
-    // const users = await User.paginate({}, options);
-    const users = await User.find({});
+    const { page = 1, limit = 5 } = req.query;
+    const options = {
+      page,
+      limit,
+    };
+    const users = await User.paginate({}, options);
+    // const users = await User.find({});
 
     return res.status(200).send(users);
   } catch (error) {
@@ -172,6 +172,10 @@ const updateUserById = async (req, res) => {
     } = req.body;
 
     if (!userId) return res.status(400).send("NOTFOUND");
+
+    const user = await User.findOne({ email: req.body.email });
+
+    if (user) return res.status(400).send("EXISTED_FIELD");
 
     const hashedPassword = await hash(password);
 
