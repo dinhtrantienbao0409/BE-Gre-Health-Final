@@ -4,6 +4,7 @@ const CreateForm = async ({
   username,
   userId,
   doctorId,
+  receptionId,
   gender,
   dateOfBirth,
   address,
@@ -20,6 +21,7 @@ const CreateForm = async ({
       username,
       userId,
       doctorId,
+      receptionId,
       gender,
       dateOfBirth,
       address,
@@ -89,10 +91,23 @@ const UpdateForm = async (formId, body) => {
   }
 };
 
+const DeleteForm = async (test) => {
+  try {
+    const deletedForm = await ExaminationForm.deleteOne(test);
+    return deletedForm;
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: formRepository.js ~ line 99 ~ DeleteFormForTesting ~ error",
+      error
+    );
+  }
+};
+
 module.exports = {
   CreateForm,
   FindAllForms,
   FindFormByOption,
   FindFormsByCondition,
   UpdateForm,
+  DeleteForm,
 };

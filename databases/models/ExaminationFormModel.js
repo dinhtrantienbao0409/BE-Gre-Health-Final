@@ -7,6 +7,7 @@ const ExaminationFormSchema = new Schema(
     username: String,
     userId: String,
     doctorId: String,
+    receptionId: String,
     gender: String,
     dateOfBirth: String,
     address: String,

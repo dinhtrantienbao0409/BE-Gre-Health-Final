@@ -40,6 +40,7 @@ const createForm = async (req, res) => {
       username,
       userId,
       doctorId: "",
+      receptionId: "",
       gender,
       dateOfBirth,
       address,
@@ -146,20 +147,33 @@ const getFormsByDoctorId = async (req, res) => {
 };
 
 const updateFormById = async (req, res) => {
-  console.log(
-    "🚀 ~ file: FormController.js ~ line 129 ~ updateFormById ~ req",
-    req.body.doctorId
-  );
-  const { formId } = req.params;
   try {
+    const { formId } = req.params;
+
+    if (!formId) return res.status(400).send("NOTFOUND");
+
     const form = await FormRepository.UpdateForm(formId, {
       doctorId: req.body.doctorId,
     });
+    if (!form) return res.status(400).send("NOTFOUND");
 
     return res.status(200).send(form);
   } catch (error) {
     console.log(
       "🚀 ~ file: FormController.js ~ line 135 ~ updateFormById ~ error",
+      error
+    );
+  }
+};
+
+const deletedFormForTesting = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const deletedForm = await FormRepository.DeleteForm({ userId });
+    return res.status(200).send(deletedForm);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: FormController.js ~ line 172 ~ deletedFormForTesting ~ error",
       error
     );
   }
@@ -172,4 +186,5 @@ module.exports = {
   getFormsWithoutDoctorId,
   getFormsByDoctorId,
   updateFormById,
+  deletedFormForTesting,
 };
