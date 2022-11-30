@@ -1,4 +1,4 @@
-const User = require("../databases/models/UserModel");
+const AuthRepository = require("../repositories/authRepository");
 const { USER_ROLE } = require("../constants/role");
 const { hash, comparePassword } = require("../helpers/bcrypt");
 const jwt = require("jsonwebtoken");
@@ -33,13 +33,19 @@ const register = async (req, res) => {
     )
       return res.status(400).send("MISSING_FIELD");
 
-    const user = await User.findOne({ email: req.body.email });
+    const user = await AuthRepository.FindUserByOption({
+      email: req.body.email,
+    });
+    console.log(
+      "🚀 ~ file: authController.js ~ line 40 ~ register ~ user",
+      user
+    );
 
     if (user) return res.status(400).send("EXISTED_FIELD");
 
     const hashedPassword = await hash(password);
 
-    const createdUser = await User.create({
+    const createdUser = await AuthRepository.CreateUser({
       email,
       password: hashedPassword,
       role,
@@ -69,7 +75,7 @@ const login = async (req, res) => {
   if (!email || !password) return res.status(400).send("MISSING_PARAMS");
 
   try {
-    const user = await User.findOne({ email });
+    const user = await AuthRepository.FindUserByOption({ email });
 
     if (!user) return res.status(400).send("USER_NOTFOUND");
 
@@ -97,11 +103,13 @@ const login = async (req, res) => {
 };
 
 const deleteUserByEmail = async (req, res) => {
-  const { email, password, role } = req.body;
+  const { email } = req.body;
 
   if (!email) return res.status(400).send("NOTFOUND");
 
-  const deletedUser = await User.deleteOne({ email: req.body.email });
+  const deletedUser = await AuthRepository.DeleteUserByOption({
+    email: req.body.email,
+  });
   return res.status(200).send(deletedUser);
 };
 
@@ -109,7 +117,9 @@ const deleteUserById = async (req, res) => {
   const { userId } = req.params;
   if (!userId) return res.status(400).send("NOTFOUND");
 
-  const deletedUser = await User.findByIdAndDelete({ _id: userId });
+  const deletedUser = await AuthRepository.DeleteUserByCondition({
+    _id: userId,
+  });
   return res.status(200).send(deletedUser);
 };
 
@@ -120,8 +130,7 @@ const findAllUser = async (req, res) => {
       page,
       limit,
     };
-    const users = await User.paginate({}, options);
-    // const users = await User.find({});
+    const users = await AuthRepository.FindUserByCondition({}, options);
 
     return res.status(200).send(users);
   } catch (error) {
@@ -142,7 +151,7 @@ const findUserById = async (req, res) => {
 
     if (!userId) return res.status(400).send("NOTFOUND");
 
-    const user = await User.findOne({ _id: userId });
+    const user = await AuthRepository.FindUserByOption({ _id: userId });
 
     if (!user) return res.status(400).send("NOTFOUND");
 
@@ -173,13 +182,15 @@ const updateUserById = async (req, res) => {
 
     if (!userId) return res.status(400).send("NOTFOUND");
 
-    const user = await User.findOne({ email: req.body.email });
+    const user = await AuthRepository.FindUserByOption({
+      email: req.body.email,
+    });
 
     if (user) return res.status(400).send("EXISTED_FIELD");
 
     const hashedPassword = await hash(password);
 
-    const updatedUser = await User.findByIdAndUpdate(userId, {
+    const updatedUser = await AuthRepository.UpdateUser(userId, {
       email,
       password: hashedPassword,
       role,
@@ -201,11 +212,38 @@ const updateUserById = async (req, res) => {
 
 const findUserByDoctorRole = async (req, res) => {
   try {
-    const doctors = await User.find({ role: "doctor" });
+    const doctors = await AuthRepository.FindUserByRole({ role: "doctor" });
     return res.status(200).send(doctors);
   } catch (error) {
     console.log(
       "🚀 ~ file: authController.js ~ line 204 ~ findUserByDoctorRole ~ error",
+      error
+    );
+  }
+};
+
+const searchUser = async (req, res) => {
+  try {
+    const { query } = req.query;
+    const { page = 1, limit = 5 } = req.query;
+    const options = {
+      page,
+      limit,
+    };
+    const conditions = {
+      $or: [
+        { email: { $regex: String(query) }, $options: "i" },
+        { jobTitle: { $regex: String(query) }, $options: "i" },
+      ],
+    };
+    const searchedUser = await AuthRepository.FindUserByCondition(
+      conditions,
+      options
+    );
+    return res.status(200).send(searchedUser);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: FormController.js ~ line 173 ~ searchForm ~ error",
       error
     );
   }
@@ -220,4 +258,5 @@ module.exports = {
   deleteUserById,
   updateUserById,
   findUserByDoctorRole,
+  searchUser,
 };

@@ -166,6 +166,36 @@ const updateFormById = async (req, res) => {
   }
 };
 
+const searchForm = async (req, res) => {
+  try {
+    const { query } = req.query;
+    const { page = 1, limit = 5 } = req.query;
+    const options = {
+      page,
+      limit,
+    };
+    const conditions = {
+      $or: [
+        { username: { $regex: String(query) }, $options: "i" },
+        { address: { $regex: String(query) }, $options: "i" },
+        { email: { $regex: String(query) }, $options: "i" },
+        { reason: { $regex: String(query) }, $options: "i" },
+        { dateRequest: { $regex: String(query) }, $options: "i" },
+      ],
+    };
+    const searchedForm = await FormRepository.FindFormsByCondition(
+      conditions,
+      options
+    );
+    return res.status(200).send(searchedForm);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: FormController.js ~ line 173 ~ searchForm ~ error",
+      error
+    );
+  }
+};
+
 const deletedFormForTesting = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -186,5 +216,6 @@ module.exports = {
   getFormsWithoutDoctorId,
   getFormsByDoctorId,
   updateFormById,
+  searchForm,
   deletedFormForTesting,
 };

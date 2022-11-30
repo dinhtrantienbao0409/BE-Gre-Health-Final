@@ -143,6 +143,37 @@ const getRecordByUserId = async (req, res) => {
   }
 };
 
+const searchRecord = async (req, res) => {
+  try {
+    const { query } = req.query;
+    const { page = 1, limit = 5 } = req.query;
+    const options = {
+      page,
+      limit,
+    };
+    const conditions = {
+      $or: [
+        { doctorName: { $regex: String(query) }, $options: "i" },
+        { doctorEmail: { $regex: String(query) }, $options: "i" },
+        { username: { $regex: String(query) }, $options: "i" },
+        { diagnosis: { $regex: String(query) }, $options: "i" },
+        { userContact: { $regex: String(query) }, $options: "i" },
+        { doctorContact: { $regex: String(query) }, $options: "i" },
+      ],
+    };
+    const searchedRecord = await RecordRepository.FindRecordsByCondition(
+      conditions,
+      options
+    );
+    return res.status(200).send(searchedRecord);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: recordController.js ~ line 155 ~ searchRecord ~ error",
+      error
+    );
+  }
+};
+
 const deletedRecordForTesting = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -162,5 +193,6 @@ module.exports = {
   getRecordByRecordId,
   getRecordByDoctorId,
   getRecordByUserId,
+  searchRecord,
   deletedRecordForTesting,
 };

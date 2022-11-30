@@ -9,6 +9,7 @@ const {
   updateFormById,
   getFormsByDoctorId,
   deletedFormForTesting,
+  searchForm,
 } = require("../../controllers/FormController");
 
 /**
@@ -82,6 +83,18 @@ router.post("/create", createForm);
 
  */
 router.put("/:formId", updateFormById);
+
+/**
+ * @swagger
+ * /api/form/search:
+ *   get:
+ *     summary: Retrieve an list of searched form with entered query.
+ *     description: Retrieve a token from JSONPlaceholder. Can be used to populate a list of fake users when prototyping or testing an API.
+ *     responses:
+ *       200:
+
+ */
+router.get("/search", searchForm);
 router.delete("/deleteForm", deletedFormForTesting);
 
 module.exports = router;

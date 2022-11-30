@@ -6,6 +6,7 @@ const {
   getRecordByRecordId,
   getRecordByDoctorId,
   getRecordByUserId,
+  searchRecord,
   deletedRecordForTesting,
 } = require("../../controllers/recordController");
 
@@ -67,6 +68,19 @@ router.get("/findByDoctorId/:doctorId", getRecordByDoctorId);
 
  */
 router.get("/findByUserId/:userId", getRecordByUserId);
+
+/**
+ * @swagger
+ * /api/record/search:
+ *   get:
+ *     summary: Retrieve an list of searched record with entered query.
+ *     description: Retrieve a token from JSONPlaceholder. Can be used to populate a list of fake users when prototyping or testing an API.
+ *     responses:
+ *       200:
+
+ */
+router.get("/search", searchRecord);
+
 router.delete("/deleteRecord", deletedRecordForTesting);
 
 module.exports = router;
