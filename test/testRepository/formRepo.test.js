@@ -15,3 +15,16 @@ test("get all forms", async () => {
   expect(forms.docs).toBeTruthy();
   expect(forms.docs.length).toBeGreaterThan(0);
 });
+
+test("get a form", async () => {
+  const form = await FormRepository.FindFormByOption();
+
+  expect(form).toBeTruthy();
+});
+
+test("get all forms without doctor ID", async () => {
+  const forms = await FormRepository.FindFormsByCondition();
+
+  expect(forms.docs).toBeTruthy();
+  expect(forms.docs.length).toBeGreaterThan(0);
+});

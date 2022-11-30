@@ -106,34 +106,19 @@ describe("GET /api/form/byDoctorId/:doctorId", () => {
   });
 });
 
-// describe("PUT /api/form/:formId", () => {
-//   test("response with status code 200 and 1 updated form", async () => {
-//     const response = await request(app)
-//       .put("/api/form/637fcc93e242ba8dfe8138b1")
-//       .send({
-//         username: "example",
-//         gender: "example",
-//         address: "example",
-//         dateOfBirth: "example",
-//         contact: "example",
-//         email: "example",
-//         reason: "example",
-//         examinationHistory: "example",
-//         dentalProblem: "example",
-//         diseaseSymptoms: "example",
-//         dateRequest: "example",
-//       })
-//       .set("Accept", "application/json");
-//     expect(response.status).toEqual(200);
-//     expect(typeof response.body).toBe("object");
-//   });
-
-//   test("response with status code 400 and not found form", async () => {
-//     const response = await request(app)
-//       .put("/api/form/637fcc93e242ba8dfe8138444")
-//       .send({ mockForm })
-//       .set("Accept", "application/json");
-//     expect(response.status).toEqual(400);
-//     expect(response.text).toBe("NOTFOUND");
-//   });
-// });
+describe("GET /api/form/search", () => {
+  test("response with status code 200 and list of searched form with entered query", async () => {
+    const response = await request(app)
+      .get("/api/form/search?query=example")
+      .set("Accept", "application/json");
+    expect(response.status).toEqual(200);
+    expect(response._body.docs.length).toBeGreaterThan(0);
+  });
+  test("response with status code 200 and all forms without entered query", async () => {
+    const response = await request(app)
+      .get("/api/form/search?query=")
+      .set("Accept", "application/json");
+    expect(response.status).toEqual(200);
+    expect(response._body.docs.length).toBeGreaterThan(0);
+  });
+});
