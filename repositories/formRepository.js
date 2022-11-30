@@ -33,10 +33,6 @@ const CreateForm = async ({
       diseaseSymptoms,
       dateRequest,
     });
-    console.log(
-      "🚀 ~ file: formRepository.js ~ line 36 ~ createdForm",
-      createdForm
-    );
     return createdForm;
   } catch (error) {
     console.log("🚀 ~ file: formRepository.js ~ line 26 ~ error", error);

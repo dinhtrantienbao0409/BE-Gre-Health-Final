@@ -9,6 +9,7 @@ const {
   deleteUserById,
   updateUserById,
   findUserByDoctorRole,
+  searchUser,
 } = require("../../controllers/authController");
 
 /**
@@ -94,6 +95,18 @@ router.put("/:userId", updateUserById);
 
  */
 router.get("/doctor", findUserByDoctorRole);
+
+/**
+ * @swagger
+ * /api/auth/search:
+ *   get:
+ *     summary: Retrieve an list of searched user with entered query.
+ *     description: Retrieve a token from JSONPlaceholder. Can be used to populate a list of fake users when prototyping or testing an API.
+ *     responses:
+ *       200:
+
+ */
+router.get("/search", searchUser);
 router.delete("/deleteUser", deleteUserByEmail);
 
 module.exports = router;
