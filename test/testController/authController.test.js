@@ -136,32 +136,19 @@ describe("GET /api/auth/findOne/:userId", () => {
   });
 });
 
-// describe("PUT /api/auth/:userId", () => {
-//   test("response with status code 200 and 1 updated user", async () => {
-//     const response = await request(app)
-//       .put("/api/auth/633b311a782fa1f1941dff69")
-//       .send({
-//         email: "example1",
-//         password: "example",
-//         name: "example",
-//         address: "example",
-//         contact: "example",
-//         dateOfBirth: "example",
-//         gender: "example",
-//         jobTitle: "example",
-//         role: "admin",
-//       })
-//       .set("Accept", "application/json");
-//     expect(response.status).toEqual(200);
-//     expect(typeof response.body).toBe("object");
-//   });
-
-//   test("response with status code 400 and not found user", async () => {
-//     const response = await request(app)
-//       .put("/api/auth/433b311a712fa1f1941dgf69")
-//       .send({ mockUser })
-//       .set("Accept", "application/json");
-//     expect(response.status).toEqual(400);
-//     expect(response.text).toBe("NOTFOUND");
-//   });
-// });
+describe("GET /api/auth/search", () => {
+  test("response with status code 200 and list of searched user with entered query", async () => {
+    const response = await request(app)
+      .get("/api/auth/search?query=example")
+      .set("Accept", "application/json");
+    expect(response.status).toEqual(200);
+    expect(response._body.docs.length).toBeGreaterThan(0);
+  });
+  test("response with status code 200 and all users without entered query", async () => {
+    const response = await request(app)
+      .get("/api/auth/search?query=")
+      .set("Accept", "application/json");
+    expect(response.status).toEqual(200);
+    expect(response._body.docs.length).toBeGreaterThan(0);
+  });
+});

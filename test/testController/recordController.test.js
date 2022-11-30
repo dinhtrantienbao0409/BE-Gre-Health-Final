@@ -97,12 +97,19 @@ describe("GET /api/record/findByDoctorId/:doctorId", () => {
   });
 });
 
-// describe("GET /api/record/findByUserId/:doctorId", () => {
-//   test("response with status code 200 and list of records by doctor ID", async () => {
-//     const response = await request(app)
-//       .get("/api/record/findByUserId/63463951381690f290e94292")
-//       .set("Accept", "application/json");
-//     expect(response.status).toEqual(200);
-//     expect(response._body.docs.length).toBeGreaterThan(0);
-//   });
-// });
+describe("GET /api/record/search", () => {
+  test("response with status code 200 and list of searched records with entered query", async () => {
+    const response = await request(app)
+      .get("/api/record/search?query=example")
+      .set("Accept", "application/json");
+    expect(response.status).toEqual(200);
+    expect(response._body.docs.length).toBeGreaterThan(0);
+  });
+  test("response with status code 200 and all records without entered query", async () => {
+    const response = await request(app)
+      .get("/api/record/search?query=")
+      .set("Accept", "application/json");
+    expect(response.status).toEqual(200);
+    expect(response._body.docs.length).toBeGreaterThan(0);
+  });
+});
