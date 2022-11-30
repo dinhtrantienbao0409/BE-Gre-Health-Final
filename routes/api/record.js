@@ -22,7 +22,7 @@ router.get("/", getAllRecords);
 
 /**
  * @swagger
- * /api/record/:recordId:
+ * /api/record/findOne/:recordId:
  *   get:
  *     summary: Retrieve a record with entered ID.
  *     description: Retrieve a list of users from JSONPlaceholder. Can be used to populate a list of fake users when prototyping or testing an API.
@@ -43,7 +43,29 @@ router.get("/findOne/:recordId", getRecordByRecordId);
 
  */
 router.post("/create", createRecord);
+
+/**
+ * @swagger
+ * /api/record/findByDoctorId/:doctorId:
+ *   get:
+ *     summary: Retrieve a record with doctorId.
+ *     description: Retrieve a token from JSONPlaceholder. Can be used to populate a list of fake users when prototyping or testing an API.
+ *     responses:
+ *       200:
+
+ */
 router.get("/findByDoctorId/:doctorId", getRecordByDoctorId);
+
+/**
+ * @swagger
+ * /api/record/findByUserId/:userId:
+ *   get:
+ *     summary: Retrieve a record with userId.
+ *     description: Retrieve a token from JSONPlaceholder. Can be used to populate a list of fake users when prototyping or testing an API.
+ *     responses:
+ *       200:
+
+ */
 router.get("/findByUserId/:userId", getRecordByUserId);
 router.delete("/deleteRecord", deletedRecordForTesting);
 
