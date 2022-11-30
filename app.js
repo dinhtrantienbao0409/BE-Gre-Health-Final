@@ -15,6 +15,9 @@ const authRouter = require("./routes/api/auth");
 const recordRouter = require("./routes/api/record");
 const formRouter = require("./routes/api/form");
 
+//test send mail
+const mailRouter = require("./routes/api/mail");
+
 var app = express();
 
 // swagger docs
@@ -48,6 +51,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/record", recordRouter);
 // app.use("/api/form", isLoggedIn, formRouter);
 app.use("/api/form", formRouter);
+app.use("/mail", mailRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //connect MongoDB IIFE
