@@ -15,6 +15,7 @@ const createRecord = async (req, res) => {
       dentalSymtoms,
       diagnosis,
       treatmentPlan,
+      imageUrl,
       doctorId,
       userId,
     } = req.body;
@@ -50,6 +51,7 @@ const createRecord = async (req, res) => {
       dentalSymtoms,
       diagnosis,
       treatmentPlan,
+      imageUrl,
       doctorId,
       userId,
     });
@@ -65,12 +67,7 @@ const createRecord = async (req, res) => {
 
 const getAllRecords = async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
-    const options = {
-      page,
-      limit,
-    };
-    const records = await RecordRepository.FindAllRecords({}, options);
+    const records = await RecordRepository.FindAllRecords({});
     return res.status(200).send(records);
   } catch (error) {
     console.log(
@@ -101,18 +98,10 @@ const getRecordByRecordId = async (req, res) => {
 
 const getRecordByDoctorId = async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
-    const options = {
-      page,
-      limit,
-    };
     const { doctorId } = req.params;
     if (!doctorId) return res.status(400).send("NOTFOUND");
 
-    const records = await RecordRepository.FindRecordsByCondition(
-      { doctorId },
-      options
-    );
+    const records = await RecordRepository.FindRecordsByCondition({ doctorId });
 
     if (!records) return res.status(400).send("NOTFOUND");
 

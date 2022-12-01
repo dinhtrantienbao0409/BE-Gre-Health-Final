@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.87% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>46/64</span>
+                <span class='fraction'>42/60</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.52% </span>
+                <span class="strong">76.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>25/34</span>
+                <span class='fraction'>23/30</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.58% </span>
+                <span class="strong">75.92% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>45/58</span>
+                <span class='fraction'>41/54</span>
             </div>
         
             
@@ -250,18 +250,7 @@
 <a name='L185'></a><a href='#L185'>185</a>
 <a name='L186'></a><a href='#L186'>186</a>
 <a name='L187'></a><a href='#L187'>187</a>
-<a name='L188'></a><a href='#L188'>188</a>
-<a name='L189'></a><a href='#L189'>189</a>
-<a name='L190'></a><a href='#L190'>190</a>
-<a name='L191'></a><a href='#L191'>191</a>
-<a name='L192'></a><a href='#L192'>192</a>
-<a name='L193'></a><a href='#L193'>193</a>
-<a name='L194'></a><a href='#L194'>194</a>
-<a name='L195'></a><a href='#L195'>195</a>
-<a name='L196'></a><a href='#L196'>196</a>
-<a name='L197'></a><a href='#L197'>197</a>
-<a name='L198'></a><a href='#L198'>198</a>
-<a name='L199'></a><a href='#L199'>199</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L188'></a><a href='#L188'>188</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -280,6 +269,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -301,6 +291,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -328,11 +319,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -367,15 +353,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -476,6 +454,7 @@ const createRecord = async (req, res) =&gt; {
       dentalSymtoms,
       diagnosis,
       treatmentPlan,
+      imageUrl,
       doctorId,
       userId,
     } = req.body;
@@ -511,6 +490,7 @@ const createRecord = async (req, res) =&gt; {
       dentalSymtoms,
       diagnosis,
       treatmentPlan,
+      imageUrl,
       doctorId,
       userId,
     });
@@ -526,12 +506,7 @@ const createRecord = async (req, res) =&gt; {
 &nbsp;
 const getAllRecords = async (req, res) =&gt; {
   try {
-    const { page = <span class="branch-0 cbranch-no" title="branch not covered" >1,</span> limit = <span class="branch-0 cbranch-no" title="branch not covered" >5 </span>} = req.query;
-    const options = {
-      page,
-      limit,
-    };
-    const records = await RecordRepository.FindAllRecords({}, options);
+    const records = await RecordRepository.FindAllRecords({});
     return res.status(200).send(records);
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    console.log(</span>
@@ -562,18 +537,10 @@ const getRecordByRecordId = async (req, res) =&gt; {
 &nbsp;
 const getRecordByDoctorId = async (req, res) =&gt; {
   try {
-    const { page = 1, limit = 5 } = req.query;
-    const options = {
-      page,
-      limit,
-    };
     const { doctorId } = req.params;
     <span class="missing-if-branch" title="if path not taken" >I</span>if (!doctorId) <span class="cstat-no" title="statement not covered" >return res.status(400).send("NOTFOUND");</span>
 &nbsp;
-    const records = await RecordRepository.FindRecordsByCondition(
-      { doctorId },
-      options
-    );
+    const records = await RecordRepository.FindRecordsByCondition({ doctorId });
 &nbsp;
     <span class="missing-if-branch" title="if path not taken" >I</span>if (!records) <span class="cstat-no" title="statement not covered" >return res.status(400).send("NOTFOUND");</span>
 &nbsp;
@@ -664,7 +631,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-30T12:56:47.223Z
+                at 2022-12-01T22:23:33.823Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

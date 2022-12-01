@@ -13,6 +13,7 @@ const CreateRecord = async ({
   dentalSymtoms,
   diagnosis,
   treatmentPlan,
+  imageUrl,
   doctorId,
   userId,
 }) => {
@@ -30,6 +31,7 @@ const CreateRecord = async ({
       dentalSymtoms,
       diagnosis,
       treatmentPlan,
+      imageUrl,
       doctorId,
       userId,
     });
@@ -39,9 +41,9 @@ const CreateRecord = async ({
   }
 };
 
-const FindAllRecords = async (conditions, options) => {
+const FindAllRecords = async (condition) => {
   try {
-    const records = await Record.paginate(conditions, options);
+    const records = await Record.find(condition);
     return records;
   } catch (error) {
     console.log(
@@ -63,9 +65,9 @@ const FindRecordByOption = async (option) => {
   }
 };
 
-const FindRecordsByCondition = async (conditions, options) => {
+const FindRecordsByCondition = async (condition) => {
   try {
-    const records = await Record.paginate(conditions, options);
+    const records = await Record.find(condition);
     return records;
   } catch (error) {
     console.log(

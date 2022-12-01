@@ -39,9 +39,9 @@ const CreateForm = async ({
   }
 };
 
-const FindAllForms = async (conditions, options) => {
+const FindAllForms = async (condition) => {
   try {
-    const forms = await ExaminationForm.paginate(conditions, options);
+    const forms = await ExaminationForm.find(condition);
     return forms;
   } catch (error) {
     console.log(
@@ -63,9 +63,9 @@ const FindFormByOption = async (option) => {
   }
 };
 
-const FindFormsByCondition = async (condition, option) => {
+const FindFormsByCondition = async (condition) => {
   try {
-    const forms = await ExaminationForm.paginate(condition, option);
+    const forms = await ExaminationForm.find(condition);
     return forms;
   } catch (error) {
     console.log(

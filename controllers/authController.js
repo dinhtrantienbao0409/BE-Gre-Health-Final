@@ -125,12 +125,7 @@ const deleteUserById = async (req, res) => {
 
 const findAllUser = async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
-    const options = {
-      page,
-      limit,
-    };
-    const users = await AuthRepository.FindUserByCondition({}, options);
+    const users = await AuthRepository.FindUserByCondition({});
 
     return res.status(200).send(users);
   } catch (error) {

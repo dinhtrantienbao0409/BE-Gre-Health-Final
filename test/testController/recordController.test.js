@@ -16,6 +16,7 @@ const mockRecord = {
   dentalSymtoms: "example",
   diagnosis: "example",
   treatmentPlan: "example",
+  imageUrl: "https://images.tute.io/static/img/noimg-thumbnail.png",
   doctorId: "example",
   userId: "example",
 };
@@ -65,7 +66,7 @@ describe("GET /api/record", () => {
       .set("Accept", "application/json");
 
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
 });
 
@@ -93,7 +94,7 @@ describe("GET /api/record/findByDoctorId/:doctorId", () => {
       .get("/api/record/findByDoctorId/63463951381690f290e94292")
       .set("Accept", "application/json");
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
 });
 
@@ -103,13 +104,13 @@ describe("GET /api/record/search", () => {
       .get("/api/record/search?query=example")
       .set("Accept", "application/json");
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
   test("response with status code 200 and all records without entered query", async () => {
     const response = await request(app)
       .get("/api/record/search?query=")
       .set("Accept", "application/json");
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
 });
