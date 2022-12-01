@@ -12,8 +12,8 @@ afterAll(async () => {
 test("get all users", async () => {
   const users = await AuthRepository.FindUserByCondition();
 
-  expect(users.docs).toBeTruthy();
-  expect(users.docs.length).toBeGreaterThan(0);
+  expect(users).toBeTruthy();
+  expect(users.length).toBeGreaterThan(0);
 });
 
 test("get a user by ID", async () => {

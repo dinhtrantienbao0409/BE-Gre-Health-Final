@@ -39,9 +39,9 @@ const FindUserByOption = async (option) => {
     );
   }
 };
-const FindUserByCondition = async (condition, option) => {
+const FindUserByCondition = async (condition) => {
   try {
-    const users = await User.paginate(condition, option);
+    const users = await User.find(condition);
     return users;
   } catch (error) {
     console.log(

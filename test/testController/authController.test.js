@@ -114,7 +114,7 @@ describe("GET /api/auth", () => {
       .set("Accept", "application/json");
 
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
 });
 
@@ -142,13 +142,13 @@ describe("GET /api/auth/search", () => {
       .get("/api/auth/search?query=example")
       .set("Accept", "application/json");
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
   test("response with status code 200 and all users without entered query", async () => {
     const response = await request(app)
       .get("/api/auth/search?query=")
       .set("Accept", "application/json");
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
 });

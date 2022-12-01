@@ -64,7 +64,7 @@ describe("GET /api/form", () => {
       .set("Accept", "application/json");
 
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
 });
 
@@ -92,7 +92,7 @@ describe("GET /api/form/withoutDoctorId", () => {
       .get("/api/form/withoutDoctorId")
       .set("Accept", "application/json");
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
 });
 
@@ -102,7 +102,7 @@ describe("GET /api/form/byDoctorId/:doctorId", () => {
       .get("/api/form/byDoctorId/638099268c969c01e3e4debf")
       .set("Accept", "application/json");
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
 });
 
@@ -112,13 +112,13 @@ describe("GET /api/form/search", () => {
       .get("/api/form/search?query=example")
       .set("Accept", "application/json");
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
   test("response with status code 200 and all forms without entered query", async () => {
     const response = await request(app)
       .get("/api/form/search?query=")
       .set("Accept", "application/json");
     expect(response.status).toEqual(200);
-    expect(response._body.docs.length).toBeGreaterThan(0);
+    expect(response._body.length).toBeGreaterThan(0);
   });
 });

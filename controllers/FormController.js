@@ -64,12 +64,7 @@ const createForm = async (req, res) => {
 
 const getAllForms = async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
-    const options = {
-      page,
-      limit,
-    };
-    const forms = await FormRepository.FindAllForms({}, options);
+    const forms = await FormRepository.FindAllForms({});
 
     return res.status(200).send(forms);
   } catch (error) {
@@ -100,18 +95,10 @@ const getFormByFormId = async (req, res) => {
 };
 const getFormsWithoutDoctorId = async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
-    const options = {
-      page,
-      limit,
-    };
     const doctorId = "";
-    const forms = await FormRepository.FindFormsByCondition(
-      {
-        doctorId: doctorId,
-      },
-      options
-    );
+    const forms = await FormRepository.FindFormsByCondition({
+      doctorId: doctorId,
+    });
 
     return res.status(200).send(forms);
   } catch (error) {
@@ -124,18 +111,10 @@ const getFormsWithoutDoctorId = async (req, res) => {
 
 const getFormsByDoctorId = async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
-    const options = {
-      page,
-      limit,
-    };
     const { doctorId } = req.params;
-    const forms = await FormRepository.FindFormsByCondition(
-      {
-        doctorId: doctorId,
-      },
-      options
-    );
+    const forms = await FormRepository.FindFormsByCondition({
+      doctorId: doctorId,
+    });
 
     return res.status(200).send(forms);
   } catch (error) {

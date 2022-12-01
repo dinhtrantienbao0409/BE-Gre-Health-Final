@@ -12,8 +12,8 @@ afterAll(async () => {
 test("get all records", async () => {
   const records = await RecordRepository.FindAllRecords();
 
-  expect(records.docs).toBeTruthy();
-  expect(records.docs.length).toBeGreaterThan(0);
+  expect(records).toBeTruthy();
+  expect(records.length).toBeGreaterThan(0);
 });
 
 test("get a record by option", async () => {
@@ -25,6 +25,6 @@ test("get a record by option", async () => {
 test("get list of records by option and condition", async () => {
   const records = await RecordRepository.FindRecordsByCondition();
 
-  expect(records.docs).toBeTruthy();
-  expect(records.docs.length).toBeGreaterThan(0);
+  expect(records).toBeTruthy();
+  expect(records.length).toBeGreaterThan(0);
 });

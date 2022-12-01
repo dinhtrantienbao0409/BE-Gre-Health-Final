@@ -12,8 +12,8 @@ afterAll(async () => {
 test("get all forms", async () => {
   const forms = await FormRepository.FindAllForms();
 
-  expect(forms.docs).toBeTruthy();
-  expect(forms.docs.length).toBeGreaterThan(0);
+  expect(forms).toBeTruthy();
+  expect(forms.length).toBeGreaterThan(0);
 });
 
 test("get a form", async () => {
@@ -25,6 +25,6 @@ test("get a form", async () => {
 test("get all forms without doctor ID", async () => {
   const forms = await FormRepository.FindFormsByCondition();
 
-  expect(forms.docs).toBeTruthy();
-  expect(forms.docs.length).toBeGreaterThan(0);
+  expect(forms).toBeTruthy();
+  expect(forms.length).toBeGreaterThan(0);
 });
